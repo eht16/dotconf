@@ -1,0 +1,64 @@
+#!/usr/bin/zsh
+
+
+#enable core dumps
+#ulimit -c 1048576
+
+# nice ls
+eval $(dircolors -b)
+
+# colored man pages
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+
+# misc
+export PATH="/home/enrico/bin:/home/enrico/apps/xfce/bin:/home/enrico/apps/bin:/usr/lib/ccache:$PATH"
+export LC_COLLATE=C
+#export LINGUAS="de en_GB"
+
+# me
+export EMAIL="enrico.troeger@uvean.de"
+export NAME="Enrico Tröger"
+export FULLNAME="$NAME"
+
+# debian
+export DEBEMAIL="$EMAIL"
+export DEBFULLNAME="$NAME"
+
+# ignore MC's history stuff
+export HISTCONTROL=ignoreboth
+export HISTIGNORE=ls:bg:fg:exit:cd:source:.:clear:sudo:su
+
+# grep
+export GREP_OPTIONS="--color=auto";
+export GREP_COLOR="01;38;5;3;"
+
+# X / GTK / Xfce
+export GTK2_RC_FILES=$HOME/.gtkrc-2.0
+export G_SLICE=always-malloc
+export OOO_FORCE_DESKTOP=gnome
+export PKG_CONFIG_PATH="/home/enrico/apps/lib/pkgconfig/:/home/enrico/apps/xfce/lib/pkgconfig:/home/enrico/apps/webkit/lib/pkgconfig"
+export XDG_DATA_DIRS="/home/enrico/apps/share:/usr/share"
+
+# development
+export CFLAGS="-Wall -O2 -pipe -fPIC -march=athlon64"
+export CXXFLAGS=$CFLAGS
+export MAKEFLAGS="-j2"
+#export CC="ccache gcc"
+#export CXX="ccache g++"
+
+# tools
+export BROWSER=/home/enrico/apps/bin/midori
+export EDITOR=mcedit
+export EDITOR=mcview
+export JOBS=2
+export MOZ_PLUGIN_PATH="/usr/lib/mozilla/plugins"
+#export WAFCACHE="/home/enrico/.cache/waf"
+
+

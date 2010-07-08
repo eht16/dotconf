@@ -1,0 +1,47 @@
+#!/usr/bin/zsh
+
+# basics
+alias ..="cd .."
+alias cd..="cd .."
+alias which='builtin which -a'
+alias h='history'
+alias ls='ls -h --color --group-directories-first'
+alias ll='ls -l -h --color --group-directories-first'
+alias la='ls -hal --color --group-directories-first'
+alias usb='mount /mnt/usb'
+alias usbu='umount /mnt/usb'
+alias grep='grep -I -n'
+alias make='make -j 2'
+alias man='LANG=C man'
+alias -g G=' | grep'
+alias -g L=' | less'
+
+# debian
+alias buildpackage='dpkg-buildpackage -rfakeroot -k700990F2'
+alias cleanpackage='fakeroot debian/rules clean'
+
+# remote sites
+alias fli='ssh root@yavin'
+alias sat='ssh -p18683 -X endor'
+alias uv='ssh -p 18683 uvena.de'
+alias kopi='ssh enrico@kopiluwak.foo-projects.org'
+alias hefi='ssh -p 18683 62.75.249.246'
+
+# misc
+alias jap="java -jar /home/enrico/apps/JAP.jar"
+alias myip="wget http://privat.uvena.de/myip.php -q -O -"
+
+# geany
+alias mg='make && LANG=C ./geany -c /g'
+alias wg='waf -j2 && LANG=C _build_/default/geany -c /g'
+alias glade='LANG=C glade-2 /home/enrico/projects/geany/geany.glade'
+
+# extensions
+alias -s ogg='parole'
+alias -s mp3='parole'
+alias -s avi='parole'
+alias -s py='python'
+alias -s pdf='evince'
+
+# without gdb will go into background when running apps
+alias tty='stty -tostop'
