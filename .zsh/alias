@@ -15,6 +15,7 @@ alias make='make -j 2'
 alias man='LANG=C man'
 alias -g G=' | grep'
 alias -g L=' | less'
+alias pfkill='pkill -f'
 
 # debian
 alias buildpackage='dpkg-buildpackage -rfakeroot -k700990F2'
