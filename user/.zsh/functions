@@ -142,3 +142,14 @@ function path () {
 function play_yt() {
     parole $(youtube-dl -bg "$*")
 }
+
+# get march name for gcc
+function get_march() {
+    maschine=$(uname -m)
+    if [ "${maschine}" = "x86_64" ]
+    then
+        echo "athlon64"
+    else
+        echo "pentium4m"
+    fi
+}

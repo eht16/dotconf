@@ -47,7 +47,7 @@ export PKG_CONFIG_PATH="/home/enrico/apps/lib/pkgconfig/:/home/enrico/apps/xfce/
 export XDG_DATA_DIRS="/home/enrico/apps/share:/usr/share"
 
 # development
-export CFLAGS="-Wall -O2 -pipe -fPIC -march=athlon64"
+export CFLAGS="-Wall -O2 -pipe -fPIC -march=$(get_march)"
 export CXXFLAGS=$CFLAGS
 export MAKEFLAGS="-j2"
 #export CC="ccache gcc"
