@@ -1,0 +1,22 @@
+#!/usr/bin/zsh
+
+# basics
+alias ..="cd .."
+alias cd..="cd .."
+alias which='builtin which -a'
+alias h='history'
+alias ls='ls -h --color --group-directories-first'
+alias ll='ls -l -h --color --group-directories-first'
+alias la='ls -hal --color --group-directories-first'
+alias usb='mount /mnt/usb'
+alias usbu='umount /mnt/usb'
+alias grep='grep -I -n'
+alias make='make -j 2'
+alias man='LANG=C man'
+alias -g G=' | grep'
+alias -g L=' | less'
+alias pfkill='pkill -f'
+alias pf9kill='pkill -9 -f'
+alias wakesrv='wakeonlan 00:11:43:0c:f7:7e'
+alias nss='netstat -tulpen'
+

@@ -1,0 +1,20 @@
+#!/usr/bin/zsh
+
+# most from http://kriener.org/articles/2009/06/04/zsh-prompt-magic
+setopt prompt_subst
+autoload colors
+
+colors
+
+# set some colors
+for COLOR in RED GREEN YELLOW WHITE BLUE BLACK CYAN; do
+	eval PR_$COLOR='%{$fg[${(L)COLOR}]%}'
+	eval PB_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
+done
+PR_RESET="%{${reset_color}%}";
+
+
+
+# THE PROMPT :)
+PROMPT='[%*] ${PB_GREEN}%n${PR_RESET}@${PR_RED}%m ${PR_GREEN}(%?): ${PB_BLUE}%~${PR_RESET}%# '
+

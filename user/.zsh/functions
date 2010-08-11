@@ -138,7 +138,7 @@ function path () {
     echo
 }
 
-# play youtube url's with mplayer
+# play youtube url's with parole
 function play_yt() {
     parole $(youtube-dl -bg "$*")
 }
