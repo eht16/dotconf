@@ -21,7 +21,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 export LC_COLLATE=C
 
 # me
-export EMAIL="enrico.troeger@uvean.de"
+export EMAIL="enrico.troeger@uvena.de"
 export NAME="Enrico Tröger"
 export FULLNAME="$NAME"
 

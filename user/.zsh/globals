@@ -23,7 +23,7 @@ export LC_COLLATE=C
 #export LINGUAS="de en_GB"
 
 # me
-export EMAIL="enrico.troeger@uvean.de"
+export EMAIL="enrico.troeger@uvena.de"
 export NAME="Enrico Tröger"
 export FULLNAME="$NAME"
 
