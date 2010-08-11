@@ -56,7 +56,7 @@ export MAKEFLAGS="-j2"
 # tools
 export BROWSER=/home/enrico/apps/bin/midori
 export EDITOR=mcedit
-export EDITOR=mcview
+export VISUAL=mcedit
 export JOBS=2
 export MOZ_PLUGIN_PATH="/usr/lib/mozilla/plugins"
 #export WAFCACHE="/home/enrico/.cache/waf"
