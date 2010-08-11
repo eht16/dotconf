@@ -16,6 +16,8 @@ alias man='LANG=C man'
 alias -g G=' | grep'
 alias -g L=' | less'
 alias pfkill='pkill -f'
+alias pf9kill='pkill -9 -f'
+alias wakesrv='wakeonlan 00:11:43:0c:f7:7e'
 
 # debian
 alias buildpackage='dpkg-buildpackage -rfakeroot -k700990F2'
