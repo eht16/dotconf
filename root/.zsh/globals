@@ -18,6 +18,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 
 # misc
+export PATH="/root/bin:$PATH"
 export LC_COLLATE=C
 
 # me
