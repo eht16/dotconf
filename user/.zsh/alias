@@ -19,6 +19,7 @@ alias pfkill='pkill -f'
 alias pf9kill='pkill -9 -f'
 alias wakesrv='wakeonlan 00:11:43:0c:f7:7e'
 alias sx='startx'
+alias frem='free -m'
 
 # debian
 alias buildpackage='dpkg-buildpackage -rfakeroot -k700990F2'
