@@ -9,17 +9,20 @@ function flist() {
 # display a list of possible random passwords.
 function spwgen() {
     if [[ "$1" == "-h" ]] {
-        echo "Usage: $0 <pwlen> <passwords>"
+        echo "Usage: $0 <pwlen>"
     } else {
         local pl="$1"
-        local np="$2"
         test -z "$pl" && pl=16
-        test -z "$np" && np=10
         perl <<EOPERL
-my @a = ("a".."z","A".."Z","0".."9",(split //, q{#@,.<>$%&()*^}));
-for (1.."$np") {
+# weaker set
+my @a = ("a".."z","A".."Z","0".."9",(split //, q{/?&}));
+# stronger set
+my @b = ("a".."z","A".."Z","0".."9",(split //, q{<>@&%$*^#/?!}));
+for (1.."5") {
     print join "", map { \$a[rand @a] } (1.."$pl");
-    print qq{\n}
+    print qq{\n};
+    print join "", map { \$b[rand @b] } (1.."$pl");
+    print qq{\n};
 }
 EOPERL
     }
