@@ -15,6 +15,7 @@ alias make='make -j 2'
 alias man='LANG=C man'
 alias -g G=' | grep'
 alias -g L=' | less'
+alias -g S=' | sort'
 alias pfkill='pkill -f'
 alias pf9kill='pkill -9 -f'
 alias wakesrv='wakeonlan 00:11:43:0c:f7:7e'
@@ -26,13 +27,6 @@ alias route='/sbin/route'
 # debian
 alias buildpackage='dpkg-buildpackage -rfakeroot -k700990F2'
 alias cleanpackage='fakeroot debian/rules clean'
-
-# remote sites
-alias fli='ssh root@yavin'
-alias sat='ssh -p18683 -X endor'
-alias uv='ssh -p 18683 uvena.de'
-alias kopi='ssh enrico@kopiluwak.foo-projects.org'
-alias hefi='ssh -p 18683 62.75.249.246'
 
 # misc
 alias jap="java -jar /home/enrico/apps/JAP.jar"
