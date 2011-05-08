@@ -16,5 +16,5 @@ PR_RESET="%{${reset_color}%}";
 
 
 # THE PROMPT :)
-PROMPT='[%*] ${PB_GREEN}%n${PR_RESET}@${PR_RED}%m ${PR_GREEN}(%?): ${PB_BLUE}%~${PR_RESET}%# '
+PROMPT='[%*] ${PB_GREEN}%n${PR_RESET}@${PR_RED}%m${PR_CYAN}${CHROOT_NAME:+|}${CHROOT_NAME} ${PR_GREEN}(%?): ${PB_BLUE}%~${PR_RESET}%# '
 
