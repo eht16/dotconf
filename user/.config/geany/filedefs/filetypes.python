@@ -1,0 +1,21 @@
+[styling]
+# TODO update these to named styles
+commentblock=0x808080;0xffffff;false;false
+commentline=0x808080;0xffffff;false;false
+string=0x008000;0xffffff;false;false
+character=0x008000;0xffffff;false;false
+triple=0x008020;0xffffff;false;false
+tripledouble=0x404000;0xffffff;false;false
+word2=0x0A00AC;0xffffff;false;false
+
+[build-menu]
+FT_00_LB=_Kompilieren
+FT_00_CM=python -t -c "import py_compile; py_compile.compile('%f')"
+FT_00_WD=
+EX_00_LB=_Ausführen
+EX_00_CM=python "%f"
+EX_00_WD=
+FT_01_LB=Check
+FT_01_CM=PYTHONPATH="$PYTHONPATH:/home/enrico/.pylint.d" pylint %f
+FT_01_WD=
+error_regex=(.+):([0-9]+): \\[.*
