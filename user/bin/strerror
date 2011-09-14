@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+
+from os import strerror
+import sys
+
+if len(sys.argv) != 2:
+    print >> sys.stderr, 'Usage: %s <error-code>' % sys.argv[0]
+    exit(1)
+
+if not sys.argv[1].isdigit():
+    print >> sys.stderr, 'Invalid error code - not a number'
+    exit(1)
+
+print strerror(int(sys.argv[1]))
