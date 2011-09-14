@@ -156,3 +156,29 @@ function get_march() {
         echo "pentium4m"
     fi
 }
+
+
+function svn_edit_externals() {
+    svn_edit_property svn:externals "${1}"
+}
+
+function mergeit() {
+    if command -v upsvnifneeded >/dev/null; then
+        upsvnifneeded
+    fi
+    tag=${1:=stable}
+    tag_rev=$(svn info ${tag} | /bin/grep "Last Changed Rev:" | cut -d ' ' -f 4)
+    trunk_rev=$(svn info trunk | /bin/grep "Last Changed Rev:" | cut -d ' ' -f 4)
+    cmd="svn merge trunk ${tag} -r${tag_rev}:${trunk_rev}"
+    dry_run_cmd="$cmd --dry-run"
+    echo "${dry_run_cmd}"
+    eval ${dry_run_cmd}
+    echo "Do it, baby? (y/n)"
+    read answer
+    if [ $answer = y -o $answer = Y -o $answer = yes -o $answer = Yes -o $answer = YES ]
+    then
+        eval ${cmd}
+    fi
+}
+
+
