@@ -8,6 +8,9 @@ triple=0x008020;0xffffff;false;false
 tripledouble=0x404000;0xffffff;false;false
 word2=0x0A00AC;0xffffff;false;false
 
+[settings]
+context_action_cmd = /home/enrico/bin/pydocw %s
+
 [build-menu]
 FT_00_LB=_Kompilieren
 FT_00_CM=python -t -c "import py_compile; py_compile.compile('%f')"

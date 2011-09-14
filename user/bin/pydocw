@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+#       pydocgtk
+#       Copyright 2008 Mirat Can Bayrak <horselogy@pardus-nx8220>
+import sys , pydoc , gtk , pygtk
+
+def main():
+    def show_help(text):
+        window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        window.set_skip_taskbar_hint(False)
+        window.set_skip_pager_hint(False)
+        window.set_title('Instant Helper')
+        window.set_geometry_hints(min_width=400,min_height=200)
+        window.set_decorated(False)
+        window.connect('key-press-event', lambda a,b : gtk.main_quit())
+        textbuffer = gtk.TextBuffer()
+        textbuffer.set_text(text)
+        textview = gtk.TextView(textbuffer)
+        textview.set_wrap_mode(gtk.WRAP_WORD)
+        textview.set_editable(False)
+        textview.set_cursor_visible(False)
+        scroll = gtk.ScrolledWindow()
+        scroll.set_shadow_type(gtk.SHADOW_OUT)
+        scroll.set_policy(gtk.POLICY_NEVER,gtk.POLICY_AUTOMATIC)
+        scroll.add(textview)
+        window.add(scroll)
+        window.show_all()
+        gtk.main()
+    try :
+        word = sys.argv[1]
+    except :
+        show_help("Wrong Usage\nUsage is: #pydocw name")
+        sys.exit(1)
+    try:
+        show_help(pydoc.getdoc(pydoc.resolve(word)[0]))
+    except:
+        show_help("no document")
+        sys.exit(1)
+if __name__ == '__main__': main()
