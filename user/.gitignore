@@ -1,4 +1,23 @@
+# General
 *~
-*.pyc
-*.zwc
+
+
+# Compiled source
+*.class
+*.com
+*.dll
+*.exe
 *.o
+*.pyc
+*.pyo
+*.so
+
+
+# Misc
+*.zwc
+
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
