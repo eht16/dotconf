@@ -1,5 +1,6 @@
 [core]
 	excludesfile = /home/enrico/.gitignore
+	autocrlf = input
 [user]
 	email = enrico.troeger@uvena.de
 	name = Enrico Tröger
