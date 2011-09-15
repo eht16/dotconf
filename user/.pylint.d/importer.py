@@ -10,6 +10,7 @@ def fix_paths():
     cwd = os.getcwd()
     cwd_parts = cwd.split('/')
     idx = len(cwd_parts) - 1
+
     if cwd_parts[-1] == 'bin':
         include_path = '/'.join(cwd_parts[:-1]) + '/include'
         if os.path.exists(include_path):
@@ -21,6 +22,9 @@ def fix_paths():
     else:
         while idx >= 0 and cwd_parts[idx] != 'include' and cwd_parts[idx] != '/':
             idx -= 1
+            # if we find a license file, assume this is the top-level directory
+            if not os.path.exists(os.path.join('/'.join(cwd_parts[:idx]), 'COPYING')):
+                break
 
         include_path_parts = cwd_parts[:idx+1]
         if include_path_parts:
