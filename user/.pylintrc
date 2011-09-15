@@ -1,11 +1,3 @@
-# lint Python modules using external checkers.
-#
-# This is the main checker controlling the other ones and the reports
-# generation. It is itself both a raw checker and an astng checker in order
-# to:
-# * handle message activation / deactivation at the module level
-# * handle some basic but necessary stats'data (number of classes, methods...)
-#
 [MASTER]
 
 # Specify a configuration file.
@@ -26,9 +18,6 @@ ignore=.svn
 # Pickle collected data for later comparisons.
 persistent=yes
 
-# Set the cache size for astng objects.
-cache-size=250
-
 # List of plugins (as comma separated values of python modules names) to load,
 # usually to register additional checkers.
 load-plugins=
@@ -36,26 +25,20 @@ load-plugins=
 
 [MESSAGES CONTROL]
 
-# Enable only checker(s) with the given id(s). This option conflicts with the
-# disable-checker option
-#enable-checker=
+# Enable the message, report, category or checker with the given id(s). You can
+# either give multiple identifier separated by comma (,) or put this option
+# multiple time.
+#enable=
 
-# Enable all checker(s) except those with the given id(s). This option
-# conflicts with the enable-checker option
-#disable-checker=
-
-# Enable all messages in the listed categories (IRCWEF).
-#enable-msg-cat=
-
-# Disable all messages in the listed categories (IRCWEF).
-disable-msg-cat=I
-
-# Enable the message(s) with the given id(s).
-#enable-msg=
-
-# Disable the message(s) with the given id(s).
-disable-msg=W0704
-
+# Disable the message, report, category or checker with the given id(s). You
+# can either give multiple identifier separated by comma (,) or put this option
+# multiple time (only on the command line, not in the configuration file where
+# it should appear only once).
+disable=W0141,W0703,C0111,C0112
+# W0141 = Used builtin function %r
+# W0703 = Catch "Exception"
+# C0111 = Missing docstring
+# C0112 = Empty docstring
 
 [REPORTS]
 
@@ -238,7 +221,7 @@ int-import-graph=
 [DESIGN]
 
 # Maximum number of arguments for function / method
-max-args=5
+max-args=7
 
 # Maximum number of locals for function / method body
 max-locals=15
@@ -256,10 +239,10 @@ max-statements=50
 max-parents=7
 
 # Maximum number of attributes for a class (see R0902).
-max-attributes=7
+max-attributes=15
 
 # Minimum number of public methods for a class (see R0903).
-min-public-methods=2
+min-public-methods=1
 
 # Maximum number of public methods for a class (see R0904).
 max-public-methods=20
