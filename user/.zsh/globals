@@ -46,6 +46,9 @@ export OOO_FORCE_DESKTOP=gnome
 export PKG_CONFIG_PATH="/home/enrico/apps/lib/pkgconfig/:/home/enrico/apps/xfce/lib/pkgconfig:/home/enrico/apps/webkit/lib/pkgconfig"
 export XDG_DATA_DIRS="/home/enrico/apps/share:/usr/share"
 
+# Python / PIP
+export PIP_REQUIRE_VIRTUALENV=true
+
 # development
 export CFLAGS="-Wall -O2 -pipe -fPIC -march=$(get_march)"
 export CXXFLAGS=$CFLAGS
