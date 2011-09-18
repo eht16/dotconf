@@ -1,4 +1,4 @@
-#header, #TipOfDay1, #TipOfDay2, #footer
+.main #header, #TipOfDay1, #TipOfDay2, #footer
 {
 	display:none!important;
 	height: 0!important;
