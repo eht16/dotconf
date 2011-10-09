@@ -23,7 +23,7 @@ def fix_paths():
         while idx >= 0 and cwd_parts[idx] != 'include' and cwd_parts[idx] != '/':
             idx -= 1
             # if we find a license file, assume this is the top-level directory
-            if not os.path.exists(os.path.join('/'.join(cwd_parts[:idx]), 'COPYING')):
+            if os.path.exists(os.path.join('/'.join(cwd_parts[:idx+1]), 'COPYING')):
                 break
 
         include_path_parts = cwd_parts[:idx+1]
