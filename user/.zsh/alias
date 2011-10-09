@@ -24,6 +24,9 @@ alias frem='free -m'
 alias ifconfig='/sbin/ifconfig'
 alias route='/sbin/route'
 
+alias win7='/misc/qemu/win7'
+alias winxp='/misc/qemu/winxp'
+
 # debian
 alias buildpackage='dpkg-buildpackage -rfakeroot -k700990F2'
 alias cleanpackage='fakeroot debian/rules clean'
