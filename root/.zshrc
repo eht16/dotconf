@@ -7,7 +7,7 @@ bindkey -e
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
-setopt autocd nomatch histignorealldups complete_aliases hist_save_no_dups hist_reduce_blanks hist_expire_dups_first
+setopt autocd histignorealldups complete_aliases hist_save_no_dups hist_reduce_blanks hist_expire_dups_first
 unsetopt appendhistory beep extendedglob
 
 
@@ -15,6 +15,8 @@ zstyle :compinstall filename '/root/.zshrc'
 autoload -Uz compinit
 compinit
 
+# menu select (http://www.refining-linux.org/archives/40/ZSH-Gem-5-Menu-selection/)
+zstyle ':completion:*' menu select
 
 for file in ~/.zsh/*
 do
