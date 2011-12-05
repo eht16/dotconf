@@ -15,6 +15,8 @@ zstyle :compinstall filename '/home/enrico/.zshrc'
 autoload -Uz compinit
 compinit
 
+# menu select (http://www.refining-linux.org/archives/40/ZSH-Gem-5-Menu-selection/)
+zstyle ':completion:*' menu select
 
 for file in ~/.zsh/*
 do
