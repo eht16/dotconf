@@ -181,4 +181,7 @@ function mergeit() {
     fi
 }
 
-
+# fancy xterm prompt update on directory change (http://www.refining-linux.org/archives/42/ZSH-Gem-8-Hook-function-chpwd/)
+function chpwd() {
+    print -Pn "\e]2;%n@%M: %~\a"
+}
