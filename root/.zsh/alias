@@ -5,9 +5,9 @@ alias ..="cd .."
 alias cd..="cd .."
 alias which='builtin which -a'
 alias h='history'
-alias ls='ls -h --color --group-directories-first'
-alias ll='ls -l -h --color --group-directories-first'
-alias la='ls -hal --color --group-directories-first'
+alias ls='ls -h --color=auto --group-directories-first'
+alias ll='ls -l -h --group-directories-first'
+alias la='ls -hal --group-directories-first'
 alias grep='grep -I -n'
 alias make='make -j 2'
 alias man='LANG=C man'
