@@ -1,0 +1,6 @@
+#!/bin/sh
+
+
+pep8 --ignore=E501 -r $1
+pylint $1
+
