@@ -19,6 +19,6 @@ EX_00_LB=_Ausführen
 EX_00_CM=python "%f"
 EX_00_WD=
 FT_01_LB=Check
-FT_01_CM=PYTHONPATH="$PYTHONPATH:/home/enrico/.pylint.d" pylint %f
+FT_01_CM=PYTHONPATH=check_python_code %f
 FT_01_WD=
-error_regex=(.+):([0-9]+): \[.*
+error_regex=([^:]+):([0-9]+):([0-9:]+)? .*
