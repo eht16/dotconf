@@ -48,6 +48,7 @@ export XDG_DATA_DIRS="/home/enrico/apps/share:/usr/share"
 
 # Python / PIP
 export PIP_REQUIRE_VIRTUALENV=true
+export PYTHONSTARTUP=~/.pythonrc.py
 
 # development
 export CFLAGS="-Wall -O2 -pipe -fPIC -march=$(get_march)"
