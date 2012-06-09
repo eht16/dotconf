@@ -1,0 +1,19 @@
+
+# PIP
+export PIP_REQUIRE_VIRTUALENV=true
+
+# virtualenv
+export VIRTUALENV_USE_DISTRIBUTE=true
+export VIRTUALENV_NO_SITE_PACKAGES=true
+
+# virtualenvwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/pyenv
+
+
+# load virtualenvwrapper
+virtualenvwrapper=`which virtualenvwrapper.sh`
+if [ "$?" = 0 -a "$virtualenvwrapper" ]
+then
+	source "$virtualenvwrapper"
+fi
