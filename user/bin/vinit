@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# use virtualenv2 on ArchLinux to enforce Python 2.x
+VIRTUALENV=$(which virtualenv2 2>/dev/null)
+if [ ! "${VIRTUALENV}" ]; then
+	VIRTUALENV=$(which virtualenv)
+fi
+
+
+function log
+{
+	GREEN="\E[32m"
+	RESET="\033[00;00m"
+	echo -e "${GREEN}$1${RESET}"
+}
+
+
+log "Create virtualenv"
+${VIRTUALENV} --distribute --no-site-packages venv
+
+log "Activaze virtualenv"
+source venv/bin/activate
+
+# update base packages
+log "Update virtualenv"
+pip install --upgrade pip
+pip install --upgrade flup wsgiref
+
+# install some more packages
+log "Install South and raven"
+pip install South
+pip install raven
+
+# show some suggestions for copy&paste on demand
+log "Install candidates"
+echo pip install pylibmc
+echo pip install django-memcache-status
+echo pip install django-extensions
+echo pip install psycopg2
