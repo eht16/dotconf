@@ -3,7 +3,7 @@
 export PYTHONPATH="$PYTHONPATH:/home/enrico/.pylint.d"
 
 echo "======  pep8  ======"
-pep8 --ignore=E501 -r $1
+pep8 --ignore=E501,E123,E127,E128 -r $1
 echo "======  pyflakes  ======"
 pyflakes $1
 echo "======  pylint  ======"
