@@ -27,7 +27,8 @@ pip install --upgrade pip
 pip install --upgrade flup wsgiref
 
 # install some more packages
-log "Install South and raven"
+log "Install yolk, South and raven"
+pip install yolk
 pip install South
 pip install raven
 
