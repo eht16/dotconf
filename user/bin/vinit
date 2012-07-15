@@ -38,3 +38,4 @@ echo pip install pylibmc
 echo pip install django-memcache-status
 echo pip install django-extensions
 echo pip install psycopg2
+echo pip install mysql-python
