@@ -18,7 +18,7 @@ function log
 log "Create virtualenv"
 ${VIRTUALENV} --distribute --no-site-packages venv
 
-log "Activaze virtualenv"
+log "Activate virtualenv"
 source venv/bin/activate
 
 # update base packages
