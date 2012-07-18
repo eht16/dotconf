@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # use virtualenv2 on ArchLinux to enforce Python 2.x
 VIRTUALENV=$(which virtualenv2 2>/dev/null)
