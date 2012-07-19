@@ -1,5 +1,16 @@
 #!/bin/bash -e
 
+VIRTUALENV_OPTS=""
+while [ -n "$*" ]
+do
+	case $1 in
+		-p|--pypy)
+		VIRTUALENV_OPTS="${VIRTUALENV_OPTS} --python=$(which pypy)"
+		;;
+	esac
+	shift
+done
+
 # use virtualenv2 on ArchLinux to enforce Python 2.x
 VIRTUALENV=$(which virtualenv2 2>/dev/null)
 if [ ! "${VIRTUALENV}" ]; then
@@ -16,7 +27,7 @@ function log
 
 
 log "Create virtualenv"
-${VIRTUALENV} --distribute --no-site-packages venv
+${VIRTUALENV} ${VIRTUALENV_OPTS} --distribute --no-site-packages venv
 
 log "Activate virtualenv"
 source venv/bin/activate
