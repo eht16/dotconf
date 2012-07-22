@@ -53,5 +53,6 @@ alias tty='stty -tostop'
 # du - sorted AND human readable (as found on http://www.earthinfo.org/linux-disk-usage-sorted-by-size-and-human-readable/)
 alias duf='du -sk * | sort -n | perl -ne '\''($s,$f)=split(m{\t});for (qw(K M G)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
 
-# virtualenv activate
+# virtualenv activate / Django
 alias vac="source venv/bin/activate"
+alias runserver="python manage.py runserver"
