@@ -9,8 +9,8 @@ colors
 
 # set some colors
 for COLOR in RED GREEN YELLOW WHITE BLUE BLACK CYAN; do
-	eval PR_$COLOR='%{$fg[${(L)COLOR}]%}'
-	eval PB_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
+    eval PR_$COLOR='%{$fg[${(L)COLOR}]%}'
+    eval PB_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
 done
 PR_RESET="%{${reset_color}%}";
 
@@ -28,28 +28,28 @@ PR_GIT_UPDATE=1
 # called before command excution
 # here we decide if we should update the prompt next time
 function zsh_git_prompt_preexec {
-        case "$(history $HISTCMD)" in
-            *git*)
-                PR_GIT_UPDATE=1
-                ;;
-        esac
+    case "$(history $HISTCMD)" in
+        *git*)
+            PR_GIT_UPDATE=1
+            ;;
+    esac
 }
 preexec_functions=($preexec_functions zsh_git_prompt_preexec)
 
 # called after directory change
 # we just assume that we have to update git prompt
 function zsh_git_prompt_chpwd {
-        PR_GIT_UPDATE=1
+    PR_GIT_UPDATE=1
 }
 chpwd_functions=($chpwd_functions zsh_git_prompt_chpwd)
 
 # called before prompt generation
 # if needed, we will update the prompt info
 function zsh_git_prompt_precmd {
-       if [[ -n "$PR_GIT_UPDATE" ]] ; then
-               vcs_info 'prompt'
-               PR_GIT_UPDATE=
-       fi
+   if [[ -n "$PR_GIT_UPDATE" ]] ; then
+           vcs_info 'prompt'
+           PR_GIT_UPDATE=
+   fi
 }
 precmd_functions=($precmd_functions zsh_git_prompt_precmd)
 
