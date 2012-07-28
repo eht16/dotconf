@@ -34,14 +34,14 @@ function zsh_git_prompt_preexec {
                 ;;
         esac
 }
-preexec_functions+='zsh_git_prompt_preexec'
+preexec_functions=($preexec_functions zsh_git_prompt_preexec)
 
 # called after directory change
 # we just assume that we have to update git prompt
 function zsh_git_prompt_chpwd {
         PR_GIT_UPDATE=1
 }
-chpwd_functions+='zsh_git_prompt_chpwd'
+chpwd_functions=($chpwd_functions zsh_git_prompt_chpwd)
 
 # called before prompt generation
 # if needed, we will update the prompt info
@@ -51,7 +51,7 @@ function zsh_git_prompt_precmd {
                PR_GIT_UPDATE=
        fi
 }
-precmd_functions+='zsh_git_prompt_precmd'
+precmd_functions=($precmd_functions zsh_git_prompt_precmd)
 
 
 # THE PROMPT :)
