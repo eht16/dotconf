@@ -33,7 +33,7 @@ alias cleanpackage='fakeroot debian/rules clean'
 
 # misc
 alias jap="java -jar /home/enrico/apps/JAP.jar"
-alias myip="wget http://privat.uvena.de/myip.php -q -O -"
+alias myip="wget --prefer-family=IPv4 http://privat.uvena.de/myip.php -q -O - && wget --prefer-family=IPv6 http://privat.uvena.de/myip.php -q -O -"
 
 # geany
 alias mg='make && LANG=C ./geany -c /g'
