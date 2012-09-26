@@ -1,0 +1,129 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+
+"""
+Get current swap usage for all running processes
+Based on a script Erik Ljungstrom and Mikko Rantalainen as found on Stackoverflow[1],
+just rewritten in Python.
+
+Surely this does not give very correct values in overall swap usage on a system
+but it at least helps to get an idea of the system's swap usage and which processes
+are swapping out most.
+
+[1] http://stackoverflow.com/questions/479953/how-to-find-out-which-processes-are-swapping-in-linux
+
+Author:  Enrico Tröger
+License: GPL v2 or later
+"""
+
+from errno import EACCES
+import os
+
+
+########################################################################
+class PermissionDenied(Exception):
+    pass
+
+
+#----------------------------------------------------------------------
+def naturalsize(value):
+    """Format a number of byteslike a human readable filesize (eg. 10 kiB).
+
+    Shamelessly copied from https://github.com/jmoiron/humanize and stripped down.
+    """
+    suffixes = ('KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB')
+
+    base = 1024
+    bytes_ = float(value)
+
+    if bytes_ == 1:
+        return '1 Byte'
+    elif bytes_ < base:
+        return '%d Bytes' % bytes_
+
+    for i, suffix in enumerate(suffixes):
+        unit = base ** (i + 2)
+        if bytes_ < unit:
+            return '%.1f %s' % ((base * bytes_ / unit), suffix)
+    return '%.1f %s' % ((base * bytes_ / unit), suffix)
+
+
+#----------------------------------------------------------------------
+def read_proc_file(pid, filename):
+    filename = os.path.join('/proc', pid, filename)
+    file_ = open(filename)
+    try:
+        content = file_.read().strip()
+    except IOError, e:
+        if e.errno == EACCES:
+            raise PermissionDenied()
+        content = None
+    file_.close()
+    return content
+
+
+#----------------------------------------------------------------------
+def read_swap_usage_from_process_smaps(pid):
+    swap_usage = 0
+    smaps = read_proc_file(pid, 'smaps')
+    if not smaps:
+        return 0
+    for line in smaps.splitlines():
+        if line.startswith('Swap'):
+            line_parts = line.split()
+            try:
+                swap_usage += int(line_parts[1]) * 1024
+            except (IndexError, ValueError, TypeError):
+                pass
+
+    return swap_usage
+
+
+#----------------------------------------------------------------------
+def read_process_cmdline(pid):
+    content = read_proc_file(pid, 'cmdline')
+    # replace NULL bytes used as delimiters
+    cmdline = content.replace('\0', ' ')
+    # strip
+    cmdline = cmdline.strip()
+    # shorten to max. 80 characters
+    cmdline = cmdline[:80]
+    return cmdline
+
+
+#----------------------------------------------------------------------
+def get_swap_usage():
+    overall_swap_usage = 0
+    processes = list()
+    for pid in os.listdir('/proc'):
+        if not pid.isdigit():
+            continue
+        command = read_process_cmdline(pid)
+        try:
+            swap_usage = read_swap_usage_from_process_smaps(pid)
+        except PermissionDenied:
+            continue
+
+        if swap_usage > 0:
+            process = (pid, swap_usage, command)
+            processes.append(process)
+            overall_swap_usage += swap_usage
+
+    return overall_swap_usage, processes
+
+
+#----------------------------------------------------------------------
+def main():
+    overall_swap_usage, processes = get_swap_usage()
+    for process in sorted(processes, key=lambda x: x[1]):
+        print 'PID=%(pid)-6s swapped %(swap_usage)-12s (%(command)s)' % dict(
+            pid=process[0],
+            swap_usage=naturalsize(process[1]),
+            command=process[2])
+    print '----------------------------------------------------------------------'
+    print 'Overall swap used: %s' % naturalsize(overall_swap_usage)
+
+
+if __name__ == '__main__':
+    main()
