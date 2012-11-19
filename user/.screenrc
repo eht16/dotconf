@@ -17,6 +17,8 @@ caption always "%0=%{+b rk}%H %{bk}| %0L=%{mk}%>%-Lw%{= BW}%n%f* %t%{-}%+Lw%L>%?
 activity "Activity in %t(%n)"
 
 
+defscrollback 5000
+
 # binds
 bind k quit
 bindkey "^[<" eval number !echo $WINDOW-1|bc
