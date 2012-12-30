@@ -38,10 +38,9 @@ pip install --upgrade pip
 pip install --upgrade flup wsgiref distribute
 
 # install some more packages
-log "Install yolk, South and raven"
+log "Install yolk and South"
 pip install yolk
 pip install South
-pip install raven
 
 # show some suggestions for copy&paste on demand
 log "Install candidates"
