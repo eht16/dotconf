@@ -1,6 +1,8 @@
 
 # PIP
 export PIP_REQUIRE_VIRTUALENV=true
+export PIP_USE_MIRRORS=1
+export PIP_INDEX_URL="http://c.pypi.python.org/simple"
 
 # virtualenv
 export VIRTUALENV_USE_DISTRIBUTE=true
