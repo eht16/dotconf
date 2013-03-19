@@ -1,0 +1,12 @@
+#!/bin/sh
+
+packages=`yolk -l`
+werkzeug=`echo $packages | grep Werkzeug`
+django_extensions=`echo $packages | grep django-extensions`
+
+if [ "$werkzeug" -a "$django_extensions" ]
+then
+	python manage.py runserver_plus
+else
+	python manage.py runserver
+fi
