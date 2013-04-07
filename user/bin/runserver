@@ -6,7 +6,7 @@ django_extensions=`echo $packages | grep django-extensions`
 
 if [ "$werkzeug" -a "$django_extensions" ]
 then
-	python manage.py runserver_plus
+	python manage.py runserver_plus $@
 else
-	python manage.py runserver
+	python manage.py runserver $@
 fi
