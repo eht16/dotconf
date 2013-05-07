@@ -50,7 +50,7 @@ export XDG_DATA_DIRS="/home/enrico/apps/share:/usr/share"
 export PYTHONSTARTUP=~/.pythonrc.py
 
 # development
-export CFLAGS="-Wall -O2 -pipe -fPIC -march=native"
+export CFLAGS="-Wall -O2 -pipe -fPIC"
 export CXXFLAGS=$CFLAGS
 export MAKEFLAGS="-j2"
 #export CC="ccache gcc"
