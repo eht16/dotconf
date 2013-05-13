@@ -15,7 +15,7 @@ function spwgen() {
         test -z "$pl" && pl=16
         perl <<EOPERL
 # weaker set
-my @a = ("a".."z","A".."Z","0".."9",(split //, q{/?&}));
+my @a = ("a".."z","A".."Z","0".."9");
 # stronger set
 my @b = ("a".."z","A".."Z","0".."9",(split //, q{<>@&%$*^#/?!}));
 for (1.."5") {
