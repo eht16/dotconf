@@ -1,0 +1,13 @@
+#!/usr/bin/python2
+
+from warnings import filterwarnings
+
+# suppress warnings like: /usr/lib/python2.7/site-packages/pylint/reporters/text.py:79:
+# UserWarning: parseable output format is deprecated. This is equivalent to
+# --msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
+filterwarnings("ignore",
+    message='^parseable output format is deprecated.*',
+    category=UserWarning)
+
+from pylint import run_pylint
+run_pylint()

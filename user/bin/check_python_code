@@ -7,4 +7,4 @@ pep8 $1
 echo "======  pyflakes  ======"
 pyflakes $1
 echo "======  pylint  ======"
-pylint $1
+mypylint $1
