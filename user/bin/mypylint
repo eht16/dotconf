@@ -9,5 +9,10 @@ filterwarnings("ignore",
     message='^parseable output format is deprecated.*',
     category=UserWarning)
 
-from pylint import run_pylint
-run_pylint()
+try:
+    from pylint import run_pylint
+    run_pylint()
+except ImportError:
+    import sys
+    from pylint import lint
+    lint.Run(sys.argv[1:])
