@@ -3,6 +3,21 @@
 packages=`yolk -l`
 werkzeug=`echo $packages | grep Werkzeug`
 django_extensions=`echo $packages | grep django-extensions`
+sqltunnel_filename="sqltunnel.sh"
+
+if [ -f ${sqltunnel_filename} ]
+then
+	# check for sqltunnel.sh in current working directory and if found, check whether the tunnel
+	# is established (i.e. the tunnel command can be found in the list of running processes)
+	tunnel_cmd=`cat ${sqltunnel_filename}`
+	pgrep -f "${tunnel_cmd}" >/dev/null
+	# if the tunnel is not working, execute the setup script
+	if [ $? -gt 0 ]
+	then
+		echo "(Re-)Establish SQL tunnel"
+		${SHELL} ${sqltunnel_filename}
+	fi
+fi
 
 if [ "$werkzeug" -a "$django_extensions" ]
 then
