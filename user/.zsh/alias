@@ -16,23 +16,19 @@ alias man='LANG=C man'
 alias -g G=' | grep'
 alias -g L=' | less'
 alias -g S=' | sort'
+alias -g J=' | python -mjson.tool'
 alias pfkill='pkill -f'
 alias pf9kill='pkill -9 -f'
-alias wakesrv='wakeonlan 00:11:43:0c:f7:7e'
 alias sx='startx'
 alias frem='free -m'
 alias ifconfig='/sbin/ifconfig'
 alias route='/sbin/route'
-
-alias win7='/misc/qemu/win7'
-alias winxp='/misc/qemu/winxp'
 
 # debian
 alias buildpackage='dpkg-buildpackage -rfakeroot -k700990F2'
 alias cleanpackage='fakeroot debian/rules clean'
 
 # misc
-alias jap="java -jar /home/enrico/apps/JAP.jar"
 alias myip="echo -n 'IPv4: ' && wget --prefer-family=IPv4 http://v4.mgmt.uvena.de/ip/auto/ -q -O - && echo && echo -n 'IPv6: ' && wget --prefer-family=IPv6 http://v6.mgmt.uvena.de/ip/auto/ -q -O - ; echo"
 
 # geany
@@ -55,3 +51,6 @@ alias duf='du -sk * | sort -n | perl -ne '\''($s,$f)=split(m{\t});for (qw(K M G)
 
 # virtualenv activate / Django
 alias vac="source venv/bin/activate"
+
+# JSON pretty print
+alias jpp='python -mjson.tool'
