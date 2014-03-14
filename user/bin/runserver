@@ -9,7 +9,7 @@ if [ -f ${sqltunnel_filename} ]
 then
 	# check for sqltunnel.sh in current working directory and if found, check whether the tunnel
 	# is established (i.e. the tunnel command can be found in the list of running processes)
-	tunnel_cmd=`cat ${sqltunnel_filename}`
+	tunnel_cmd=`head -n 1 ${sqltunnel_filename}`
 	pgrep -f "${tunnel_cmd}" >/dev/null
 	# if the tunnel is not working, execute the setup script
 	if [ $? -gt 0 ]
