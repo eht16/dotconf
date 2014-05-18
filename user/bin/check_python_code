@@ -7,4 +7,4 @@ pep8 $1
 echo "======  pyflakes  ======"
 pyflakes $1
 echo "======  pylint  ======"
-mypylint --init-hooks="import sys; sys.path.append('/home/enrico/.pylint.d'); import importer" $1
+mypylint $1
