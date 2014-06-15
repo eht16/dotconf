@@ -8,6 +8,7 @@ alias h='history'
 alias ls='ls -h --color=auto --group-directories-first'
 alias ll='ls -l -h --color=auto --group-directories-first'
 alias la='ls -hal --color=auto --group-directories-first'
+alias less='less -n'  # don't count line numbers
 alias usb='mount /mnt/usb'
 alias usbu='umount /mnt/usb'
 alias grep='grep -I -n'
