@@ -41,7 +41,6 @@ alias glade='LANG=C glade-2 /home/enrico/projects/geany/geany.glade'
 alias -s ogg='parole'
 alias -s mp3='parole'
 alias -s avi='parole'
-alias -s py='python'
 alias -s pdf='evince'
 
 # without gdb will go into background when running apps
