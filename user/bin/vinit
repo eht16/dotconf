@@ -7,6 +7,12 @@ do
 		-p|--pypy)
 		VIRTUALENV_OPTS="${VIRTUALENV_OPTS} --python=$(which pypy)"
 		;;
+		-2)
+		VIRTUALENV_OPTS="${VIRTUALENV_OPTS} --python=$(which python2)"
+		;;
+		-3)
+		VIRTUALENV_OPTS="${VIRTUALENV_OPTS} --python=$(which python3)"
+		;;
 	esac
 	shift
 done
