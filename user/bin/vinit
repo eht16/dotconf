@@ -44,9 +44,9 @@ pip install --upgrade pip
 pip install --upgrade flup wsgiref distribute
 
 # install some more packages
-log "Install yolk and South"
-pip install yolk
-pip install South
+log "Install yolk and pyinotify"
+pip install "git+git://github.com/eht16/yolk#egg=yolk"
+pip install pyinotify
 
 # show some suggestions for copy&paste on demand
 log "Install candidates"
@@ -55,6 +55,7 @@ echo pip install django-memcache-status
 echo pip install django-extensions
 echo pip install psycopg2
 echo pip install mysql-python
+echo pip install South
 
 echo
 echo "Activate: source venv/bin/activate"
