@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if which python >/dev/null ; then
+	python -m json.tool <"$1" 2>&1 >/dev/null | sed 's/^\([^:]*\): line \(.*\)/'"$1"':\2: \1/'
+elif which perl >/dev/null ; then
+	perl -MJSON -e 'local $/;decode_json(<STDIN>);' <"$1" 2>&1 >/dev/null |sed 's/^\(.*\) at .e line 1, .STDIN. [^ ]* \([0-9]*\)/'"$1"':\2: \1/;'
+else
+	echo "No known JSON parsers found" >&2
+	exit 1
+fi
