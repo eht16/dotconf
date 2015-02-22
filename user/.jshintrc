@@ -1,0 +1,14 @@
+{
+  "undef": true,
+  "unused": "vars",
+  "noempty": true,
+  "nonbsp": true,
+  "indent": true,
+  "multistr": true,
+  "shadow": false,
+  "quotmark": true,
+  "camelcase": false,
+  "maxdepth": 3,
+  "maxlen": 120,
+  "predef": [ "$", "document" ]
+}
