@@ -40,6 +40,7 @@ export GREP_COLORS="ms=01;38;5;3:mc=01"
 
 # X / GTK / Xfce
 export GTK2_RC_FILES=$HOME/.gtkrc-2.0
+export GTK_OVERLAY_SCROLLING=0
 #export G_SLICE=always-malloc
 export OOO_FORCE_DESKTOP=gnome
 export PKG_CONFIG_PATH="/home/enrico/apps/lib/pkgconfig/:/home/enrico/apps/xfce/lib/pkgconfig:/home/enrico/apps/webkit/lib/pkgconfig"
