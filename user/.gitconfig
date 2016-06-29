@@ -15,6 +15,9 @@
 [url "ssh://git.xfce.org/git/"]
 	insteadOf = xfce:
 
+[url "git@github.com:geany/"]
+	insteadOf = geany:
+
 [alias]
 	cl = clone
 	st = status
