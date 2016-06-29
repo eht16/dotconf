@@ -18,3 +18,5 @@
     df = diff
     who = shortlog -s --
     up = pull --rebase
+[include]
+    path = ~/.gitconfig.local
