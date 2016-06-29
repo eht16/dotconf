@@ -9,6 +9,9 @@
 [color]
 	ui = true
 
+[push]
+	default = simple
+
 [url "git://git.gnome.org/"]
 	insteadof = gnome:
 
