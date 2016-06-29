@@ -1,22 +1,28 @@
 [core]
 	excludesfile = /home/enrico/.gitignore
 	autocrlf = input
+
 [user]
 	email = enrico.troeger@uvena.de
 	name = Enrico Tröger
+
 [color]
 	ui = true
+
 [url "git://git.gnome.org/"]
 	insteadof = gnome:
+
 [url "ssh://git.xfce.org/git/"]
 	insteadOf = xfce:
+
 [alias]
-    cl = clone
-    st = status
-    ci = commit
-    co = checkout
-    df = diff
-    who = shortlog -s --
-    up = pull --rebase
+	cl = clone
+	st = status
+	ci = commit
+	co = checkout
+	df = diff
+	who = shortlog -s --
+	up = pull --rebase
+
 [include]
     path = ~/.gitconfig.local
