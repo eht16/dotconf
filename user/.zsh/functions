@@ -173,3 +173,11 @@ function mergeit() {
 function chpwd() {
     print -Pn "\e]2;%n@%M: %~\a"
 }
+
+# list sizes of files and directory on first level
+# inspired by http://www.cyberciti.biz/faq/how-do-i-sort-du-h-output-by-size-under-linux/
+function duf() {
+    # use first argument or "." aka $PWD
+    directory=${1:=.}
+    du --all --human-readable --max-depth=1 -- $directory | sort --human-numeric-sort
+}
