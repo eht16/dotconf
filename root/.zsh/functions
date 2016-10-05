@@ -9,17 +9,20 @@ function flist() {
 # display a list of possible random passwords.
 function spwgen() {
     if [[ "$1" == "-h" ]] {
-        echo "Usage: $0 <pwlen> <passwords>"
+        echo "Usage: $0 <pwlen>"
     } else {
         local pl="$1"
-        local np="$2"
         test -z "$pl" && pl=16
-        test -z "$np" && np=10
         perl <<EOPERL
-my @a = ("a".."z","A".."Z","0".."9",(split //, q{#@,.<>$%&()*^}));
-for (1.."$np") {
+# weaker set
+my @a = ("a".."z","A".."Z","0".."9");
+# stronger set
+my @b = ("a".."z","A".."Z","0".."9",(split //, q{<>@&%$*^#/?!}));
+for (1.."5") {
     print join "", map { \$a[rand @a] } (1.."$pl");
-    print qq{\n}
+    print qq{\n};
+    print join "", map { \$b[rand @b] } (1.."$pl");
+    print qq{\n};
 }
 EOPERL
     }
@@ -41,101 +44,15 @@ function mcd() {
     test -n "$1" && mkdir "$1" && cd "$1"
 }
 
-# kernel related functionality
-function kernel() {
-    local ks="http://www.kernel.org";
-    local kver="$2"
-    local kmaj=$(echo "$kver" | awk -F"." '{print $1"."$2}')
-    case "$1" {
-        ("help" | "-h" | "--help")
-            echo "kernel help | -h | --help   - show this help"
-            echo "kernel [info]               - show latestet kernel versions"
-            echo "kernel get <ver>            - download kernel version x.x.x.x bz2 and sign file"
-            echo "kernel changelog | cl <ver> - show changelog form kernel version x.x.x.x"
-            echo
-        ;;
-        ("info" | "")
-            echo "latest kernel versions:"
-            wget -qO - "$ks/kdist/finger_banner"
-            echo
-        ;;
-        ("get")
-            case "$2" {
-                ("latest" | "lat" | "l")
-                    local l=$(wget -qO - "$ks/kdist/finger_banner" | grep "latest stable" | \
-                        awk -F":" '{sub(/^ *| *$/, "", $2); print $2}')
-                    test -n "$l" && echo "found latest kernel: $l" && kernel get "$l"
-                ;;
-                (*)
-                    test -z "$kver" && \
-                        kver=$(wget -qO - "$ks/kdist/finger_banner" | head -n 1 | awk -F':' '{gsub(/^ */, "", $2); print $2}')
-                    echo "get kernel: $kver"
-                    # get kernel sign key
-                    gpg --keyserver wwwkeys.pgp.net --recv-keys 0x517D0F0E
-                    if [[ -z $(echo "$kver" | grep -i "rc") ]] {
-                        local file="$ks/pub/linux/kernel/v$kmaj/linux-$kver.tar.bz2"
-                    } else {
-                        local file="$ks/pub/linux/kernel/v$kmaj/testing/linux-$kver.tar.bz2"
-                    }
-                    wget -c "$file"
-                    wget -c "$file"".sign"
-                    echo "check signature ..."
-                    test -f "linux-$kver.tar.bz2" -a -f "linux-$kver.tar.bz2.sign"  && \
-                        gpg --verify linux-$kver.tar.bz2.sign linux-$kver.tar.bz2 2>&1
-                        #| \
-                        #    egrep -i "Unterschrift|good signature"
-                ;;
-            }
-        ;;
-        ("changelog" | "cl")
-            case "$2" {
-                ("latest" | "lat" | "l")
-                    local l=$(wget -qO - "$ks/kdist/finger_banner" | grep "latest stable" | \
-                        awk -F":" '{sub(/^ *| *$/, "", $2); print $2}')
-                    test -n "$l" && echo "found latest kernel: $l" && kernel changelog "$l"
-                ;;
-                (*)
-                    if [[ -z $(echo "$kver" | grep -i "rc") ]] {
-                        local file="$ks/pub/linux/kernel/v$kmaj/ChangeLog-$kver"
-                    } else {
-                        local file="$ks/pub/linux/kernel/v$kmaj/testing/ChangeLog-$kver"
-                    }
-                    echo "changelog topics for $kver:"
-                    wget -qO - "$file" | grep ".*\[.*\].*" | sed 's/^[ \t]*/  /'
-                ;;
-            }
-        ;;
-    }
-}
-
-# query dict.leo.org
-function leo() {
-    test -z "$1" && return
-    local ap="$*"
-    local stext=${ap// /%20}
-    lynx -source "http://dict.leo.org?lp=ende&search=$stext" | grep -i "TABLE.*/TABLE" | lynx -stdin -dump -width=$COLUMNS -nolist
-}
-
 # show date highlighted
 function cal() {
     var=$(/usr/bin/cal)
     echo "${var/$(date +%-d)/$(echo -e "\033[1;31m$(date +%-d)\033[0m")}"
 }
 
-# check
-function chkregex() {
-    zmodload -i zsh/pcre
-    pcre_compile $1 && \
-    pcre_match $2 && echo "regex matches" || echo "regex does not match"
-}
-
-# show complete path of a file or pwd
-function path () {
-    echo -n $(builtin pwd)
-    if [[ -n "$1" ]] {
-        echo -n "/$*"
-    }
-    echo
+# fancy xterm prompt update on directory change (http://www.refining-linux.org/archives/42/ZSH-Gem-8-Hook-function-chpwd/)
+function chpwd() {
+    print -Pn "\e]2;%n@%M: %~\a"
 }
 
 # list sizes of files and directory on first level
