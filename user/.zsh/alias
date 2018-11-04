@@ -26,7 +26,7 @@ alias ifconfig='/sbin/ifconfig'
 alias route='/sbin/route'
 
 # debian
-alias buildpackage='dpkg-buildpackage -rfakeroot -k700990F2'
+alias buildpackage='dpkg-buildpackage -rfakeroot -k579347E6C71A77FA'
 alias cleanpackage='fakeroot debian/rules clean'
 
 # misc
