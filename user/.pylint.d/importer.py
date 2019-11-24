@@ -64,6 +64,9 @@ def fix_paths():
             # if we find a requirements.txt, this is may be the top of a project
             if os.path.exists(os.path.join('/'.join(cwd_parts[:idx + 1]), 'requirements.txt')):
                 break
+            # if we find a MANIFEST.in, this is may be the top of a project
+            if os.path.exists(os.path.join('/'.join(cwd_parts[:idx + 1]), 'MANIFEST.in')):
+                break
 
         include_path_parts = cwd_parts[:idx + 1]
         if include_path_parts:
