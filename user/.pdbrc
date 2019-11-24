@@ -8,12 +8,18 @@
 # local pdbrc.py (no leading dot!) in your working directory if it
 # exists).
 
-
 import os
+import pdb
 import readline
 import rlcompleter
-import pdb
 
 pdb.Pdb.complete = rlcompleter.Completer(locals()).complete
 
-execfile(os.path.expanduser("~/.pdbrc.py"))
+rc_filename = os.path.expanduser('~/.pdbrc.py')
+f = open(rc_filename)
+code = compile(f.read(), rc_filename, 'exec')
+exec(code, globals(), locals())
+f.close()
+del code
+del f
+del rc_filename
