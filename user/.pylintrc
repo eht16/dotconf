@@ -22,6 +22,13 @@ persistent=no
 # List of plugins (as comma separated values of python modules names) to load,
 # usually to register additional checkers.
 load-plugins=
+    pylint.extensions.bad_builtin,
+    pylint.extensions.check_elif,
+    pylint.extensions.comparetozero,
+    pylint.extensions.emptystring,
+    pylint.extensions.mccabe,
+    pylint.extensions.overlapping_exceptions,
+    pylint.extensions.redefined_variable_type
 
 
 [MESSAGES CONTROL]
@@ -53,7 +60,7 @@ disable=W0141,W0703,W0704,C0111,C0112
 # Set the output format. Available formats are text, parseable, colorized, msvs
 # (visual studio) and html. You can also give a reporter class, eg
 # mypackage.mymodule.MyReporterClass.
-output-format=parseable
+output-format=text
 
 # Put messages in a separate file for each module / package specified on the
 # command line instead of printing them on stdout. Reports (if any) will be
