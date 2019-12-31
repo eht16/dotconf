@@ -55,8 +55,8 @@ def read_proc_file(pid, filename):
     file_ = open(filename)
     try:
         content = file_.read().strip()
-    except IOError, e:
-        if e.errno == EACCES:
+    except IOError as exc:
+        if exc.errno == EACCES:
             raise PermissionDenied()
         content = None
     file_.close()
