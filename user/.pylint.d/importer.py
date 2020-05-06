@@ -25,10 +25,10 @@ def detect_and_add_virtualenv_for_django(path):
     if not os.path.exists(env_path):
         env_path = os.path.join(path, 'venv')
         if not os.path.exists(env_path):
-            # gire up
+            # give up
             return
-    # use glob to find the path with either of Python 2.6 or 2.7
-    site_packages_path = u'%s/lib/python2.?/site-packages' % env_path
+    # use glob to find the path with some Python
+    site_packages_path = u'%s/lib/python?.?/site-packages' % env_path
     site_packages = glob.glob(site_packages_path)
     if len(site_packages) == 1:
         sys.path.extend(site_packages)
@@ -58,7 +58,7 @@ def fix_paths():
             # if we find a license file, assume this is the top-level directory
             if os.path.exists(os.path.join('/'.join(cwd_parts[:idx + 1]), 'COPYING')):
                 break
-            # if we find a manage.py, this is most certaily the top of a Django (1.4) project
+            # if we find a manage.py, this is most certainly the top of a Django (1.4) project
             if os.path.exists(os.path.join('/'.join(cwd_parts[:idx + 1]), 'manage.py')):
                 break
             # if we find a requirements.txt, this is may be the top of a project
