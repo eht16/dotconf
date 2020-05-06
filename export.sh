@@ -5,6 +5,12 @@ cd $CWD
 
 
 function confirm() {
+	# test if 1 (stdout) is an open fd (which is not when piping or output redirection)
+	if [ ! -t 1 ]; then
+		echo "Running non-interactively as no output was detected"
+		return
+	fi
+
 	read -r -q "response?${1:-Are you sure? [y/N]}?"
 	echo
 	if [ "${response}" = "y" ];
@@ -21,6 +27,7 @@ if [ -z "$ZSH_VERSION" ]; then
 	echo "This script needs to be executed in ZSH!"
 	exit 1
 fi
+
 
 # start the party
 git pull
