@@ -6,6 +6,12 @@ width=4
 # 0 is spaces, 1 is tabs, 2 is tab & spaces
 type=0
 
+[lexer_properties]
+# For Python code, checks whether indenting is consistent.
+# "1 checks whether each line is potentially inconsistent with the previous line
+tab.timmy.whinge.level=1
+lexer.python.keywords2.no.sub.identifiers=1
+
 [build-menu]
 FT_00_LB=_Compile
 FT_00_CM=python -t -c "import py_compile; py_compile.compile('%f')"
