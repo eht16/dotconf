@@ -39,3 +39,7 @@ alias tty='stty -tostop'
 alias vac="source venv/bin/activate"
 alias vpython="venv/bin/python"
 alias vpip="venv/bin/pip"
+
+# Docker
+alias dc="docker-compose"
+alias dr="docker run"
