@@ -23,5 +23,10 @@
 	up = pull --rebase
 [push]
 	default = simple
+[pull]
+	rebase = true
 [include]
 	path = ~/.gitconfig.local
+[merge]
+	summary = true
+	verbosity = 1
