@@ -18,8 +18,8 @@ pdb.Pdb.complete = rlcompleter.Completer(locals()).complete
 rc_filename = os.path.expanduser('~/.pdbrc.py')
 f = open(rc_filename)
 code = compile(f.read(), rc_filename, 'exec')
+del rc_filename
 exec(code, globals(), locals())
 f.close()
 del code
 del f
-del rc_filename
