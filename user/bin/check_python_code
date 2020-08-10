@@ -7,4 +7,7 @@ isort --check-only $1
 echo "======  flake8  ======"
 flake8 $1
 echo "======  pylint  ======"
-pylint --jobs=2 $1
+pylint \
+	--init-hook="import sys; sys.path.append('/home/enrico/.pylint.d'); import importer" \
+	--jobs=2 \
+	$1
