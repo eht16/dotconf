@@ -50,6 +50,7 @@ export XDG_DATA_DIRS="/home/enrico/apps/share:/usr/share"
 # Python
 export PYTHONSTARTUP=~/.pythonrc.py
 export PYTHONPYCACHEPREFIX=/tmp/__pycache__
+export PYTHONBREAKPOINT="web_pdb.set_trace"
 export TWINE_USERNAME=eht16
 
 # development
