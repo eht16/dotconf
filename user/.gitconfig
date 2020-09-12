@@ -24,7 +24,7 @@
 [push]
 	default = simple
 [pull]
-	rebase = true
+	rebase = false
 [include]
 	path = ~/.gitconfig.local
 [merge]
