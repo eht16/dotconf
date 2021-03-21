@@ -1,8 +1,5 @@
 #!/bin/sh
 
-packages=`venv/bin/pip list`
-werkzeug=`echo $packages | grep Werkzeug`
-django_extensions=`echo $packages | grep django-extensions`
 sqltunnel_filename="sqltunnel.sh"
 
 if [ -f ${sqltunnel_filename} ]
@@ -19,9 +16,19 @@ then
 	fi
 fi
 
-if [ "$werkzeug" -a "$django_extensions" ]
+if [ -d venv ]
 then
-	venv/bin/python manage.py runserver_plus $@
-else
-	venv/bin/python manage.py runserver $@
+	packages=`venv/bin/pip list`
+	werkzeug=`echo $packages | grep Werkzeug`
+	django_extensions=`echo $packages | grep django-extensions`
+
+	if [ "$werkzeug" -a "$django_extensions" ]
+	then
+		venv/bin/python manage.py runserver_plus $@
+	else
+		venv/bin/python manage.py runserver $@
+	fi
+elif [ -f Pipfile ]
+then
+	pipenv run python manage.py runserver $@
 fi
