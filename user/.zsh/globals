@@ -32,6 +32,9 @@ export FULLNAME="$NAME"
 export DEBEMAIL="$EMAIL"
 export DEBFULLNAME="$NAME"
 
+# archlinux
+export BUILDDIR=/tmp/makepg
+
 # ignore MC's history stuff
 export HISTCONTROL=ignoreboth
 export HISTIGNORE=ls:bg:fg:exit:cd:source:.:clear:sudo:su
