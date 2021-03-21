@@ -46,3 +46,5 @@ alias vpip="venv/bin/pip"
 # Docker
 alias dc="docker-compose"
 alias dr="docker run"
+alias kc='kubecolor'
+compdef kc='kubectl'
