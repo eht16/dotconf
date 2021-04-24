@@ -17,53 +17,42 @@ Author:  Enrico Tröger
 License: GPL v2 or later
 """
 
-from errno import EACCES
 import os
+from decimal import Decimal
+from errno import EACCES
 
 
-########################################################################
 class PermissionDenied(Exception):
     pass
 
 
-#----------------------------------------------------------------------
-def naturalsize(value):
-    """Format a number of byteslike a human readable filesize (eg. 10 kiB).
+def naturalsize(bytes_, precision=1):
+    suffixes = ['B', 'Ki', 'Mi', 'Gi', 'Ti']
+    suffix_index = 0
+    while bytes_ >= 1024:
+        suffix_index += 1
+        bytes_ = bytes_ / Decimal(1024)
 
-    Shamelessly copied from https://github.com/jmoiron/humanize and stripped down.
-    """
-    suffixes = ('KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB')
-
-    base = 1024
-    bytes_ = float(value)
-
-    if bytes_ == 1:
-        return '1 Byte'
-    elif bytes_ < base:
-        return '%d Bytes' % bytes_
-
-    for i, suffix in enumerate(suffixes):
-        unit = base ** (i + 2)
-        if bytes_ < unit:
-            return '%.1f %s' % ((base * bytes_ / unit), suffix)
-    return '%.1f %s' % ((base * bytes_ / unit), suffix)
+    bytes_rounded = round(bytes_, precision)
+    return "{:.{precision}f} {:>2}".format(
+        bytes_rounded,
+        suffixes[suffix_index],
+        precision=precision)
 
 
-#----------------------------------------------------------------------
 def read_proc_file(pid, filename):
     filename = os.path.join('/proc', pid, filename)
-    file_ = open(filename)
-    try:
-        content = file_.read().strip()
-    except IOError as exc:
-        if exc.errno == EACCES:
-            raise PermissionDenied()
-        content = None
-    file_.close()
+    with open(filename) as file_:
+        try:
+            content = file_.read().strip()
+        except IOError as exc:
+            if exc.errno == EACCES:
+                raise PermissionDenied from exc
+            content = None
+
     return content
 
 
-#----------------------------------------------------------------------
 def read_swap_usage_from_process_smaps(pid):
     swap_usage = 0
     smaps = read_proc_file(pid, 'smaps')
@@ -80,7 +69,6 @@ def read_swap_usage_from_process_smaps(pid):
     return swap_usage
 
 
-#----------------------------------------------------------------------
 def read_process_cmdline(pid):
     content = read_proc_file(pid, 'cmdline')
     # replace NULL bytes used as delimiters
@@ -92,7 +80,6 @@ def read_process_cmdline(pid):
     return cmdline
 
 
-#----------------------------------------------------------------------
 def get_swap_usage():
     overall_swap_usage = 0
     processes = list()
@@ -113,16 +100,15 @@ def get_swap_usage():
     return overall_swap_usage, processes
 
 
-#----------------------------------------------------------------------
 def main():
     overall_swap_usage, processes = get_swap_usage()
     for process in sorted(processes, key=lambda x: x[1]):
-        print 'PID=%(pid)-6s swapped %(swap_usage)-12s (%(command)s)' % dict(
-            pid=process[0],
-            swap_usage=naturalsize(process[1]),
-            command=process[2])
-    print '----------------------------------------------------------------------'
-    print 'Overall swap used: %s' % naturalsize(overall_swap_usage)
+        pid = process[0]
+        swap_usage = naturalsize(process[1])
+        command = process[2]
+        print(f'PID={pid:8} swapped {swap_usage:>10} {command}')
+    print('----------------------------------------------------------------------')
+    print(f'Overall swap used: {naturalsize(overall_swap_usage)}')
 
 
 if __name__ == '__main__':
