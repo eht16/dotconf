@@ -16,6 +16,8 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
+# di extra filesystem types
+DI_ARGS="-I ext2,ext4,nfs,fuse,tmpfs"
 
 # misc
 export PATH="/home/enrico/bin:/home/enrico/apps/bin:/usr/lib/ccache:$PATH"
