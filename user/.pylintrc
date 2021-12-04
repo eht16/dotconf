@@ -45,12 +45,7 @@ load-plugins=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=W0141,W0703,W0704,C0111,C0112
-# W0141 = Used builtin function %r
-# W0703 = Catch "Exception"
-# W0704 = Except doesn't do anything
-# C0111 = Missing docstring
-# C0112 = Empty docstring
+disable=bad-builtin,broad-except,empty-docstring,missing-module-docstring,missing-class-docstring
 
 
 [REPORTS]

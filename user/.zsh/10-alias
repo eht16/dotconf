@@ -12,7 +12,7 @@ alias less='less -n'  # don't count line numbers
 alias usb='mount /mnt/usb'
 alias usbu='umount /mnt/usb'
 alias grep='grep --color=auto -I -n'
-alias make='make -j 2'
+alias make='make -j 4'
 alias man='LANG=C man'
 alias -g G=' | grep'
 alias -g L=' | less'

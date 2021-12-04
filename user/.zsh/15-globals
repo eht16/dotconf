@@ -1,9 +1,5 @@
 #!/usr/bin/zsh
 
-
-#enable core dumps
-#ulimit -c 1048576
-
 # nice ls
 eval $(dircolors -b)
 
@@ -17,13 +13,12 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
 # di extra filesystem types
-DI_ARGS="-I ext2,ext4,nfs,fuse,tmpfs"
+export DI_ARGS="-I ext2,ext4,nfs,fuse,tmpfs"
 
 # misc
 export PATH="/home/enrico/bin:/home/enrico/apps/bin:/usr/lib/ccache:$PATH"
 export LC_COLLATE=C
 export LC_TIME=de_DE.utf8
-#export LINGUAS="de en_GB"
 
 # me
 export EMAIL="enrico.troeger@uvena.de"
@@ -47,11 +42,10 @@ export GREP_COLORS="ms=01;38;5;3:mc=01"
 # X / GTK
 export GTK2_RC_FILES=$HOME/.gtkrc-2.0
 export GTK_OVERLAY_SCROLLING=0
-#export G_SLICE=always-malloc
 export QT_QPA_PLATFORMTHEME=gtk2
 export OOO_FORCE_DESKTOP=gnome
 export PKG_CONFIG_PATH="/home/enrico/apps/lib/pkgconfig/"
-export XDG_DATA_DIRS="/home/enrico/apps/share:/usr/share"
+export XDG_DATA_DIRS="/home/enrico/apps/share:/usr/share:$XDG_DATA_DIRS"
 
 # Python
 export PYTHONSTARTUP=~/.pythonrc.py
@@ -62,12 +56,10 @@ export TWINE_USERNAME=eht16
 # development
 export CFLAGS="-Wall -O2 -pipe -fPIC"
 export CXXFLAGS=$CFLAGS
-export MAKEFLAGS="-j2"
+export MAKEFLAGS="-j4"
 export NOCONFIGURE=1
 
 # tools
 export EDITOR=mcedit
 export VISUAL=mcedit
-export JOBS=2
-export MOZ_PLUGIN_PATH="/usr/lib/mozilla/plugins"
-
+export JOBS=4

@@ -1,9 +1,5 @@
 #!/usr/bin/zsh
 
-
-#enable core dumps
-#ulimit -c 1048576
-
 # nice ls
 eval $(dircolors -b)
 
@@ -17,7 +13,7 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
 # di extra filesystem types
-DI_ARGS="-I ext2,ext4,nfs,fuse,tmpfs"
+export DI_ARGS="-I ext2,ext4,nfs,fuse,tmpfs"
 
 # misc
 export PATH="/root/bin:$PATH"
@@ -43,5 +39,4 @@ export GREP_COLORS="ms=01;38;5;3:mc=01"
 # tools
 export EDITOR=mcedit
 export VISUAL=mcedit
-export JOBS=2
-
+export JOBS=4
