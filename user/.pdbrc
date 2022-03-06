@@ -16,10 +16,20 @@ import rlcompleter
 pdb.Pdb.complete = rlcompleter.Completer(locals()).complete
 
 rc_filename = os.path.expanduser('~/.pdbrc.py')
-f = open(rc_filename)
-code = compile(f.read(), rc_filename, 'exec')
+rc_file = open(rc_filename)
+code = compile(rc_file.read(), rc_filename, 'exec')
+rc_file.close()
 del rc_filename
+del rc_file
 exec(code, globals(), locals())
-f.close()
 del code
-del f
+
+# Basic aliases from the official docs
+# print instance variables (usage "pi classInst")
+alias pi for k in %1.__dict__.keys(): print('%1.', k, '=', %1.__dict__[k])
+# print instance variables in self
+alias ps pi self
+
+# Next and list, and step and list.
+alias nl n;;l
+alias sl s;;l
