@@ -30,3 +30,5 @@
 [merge]
 	summary = true
 	verbosity = 1
+[grep]
+	lineNumber = 1
