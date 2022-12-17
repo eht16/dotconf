@@ -61,6 +61,9 @@ def fix_paths():
             # if we find a manage.py, this is most certainly the top of a Django (1.4) project
             if os.path.exists(os.path.join('/'.join(cwd_parts[:idx + 1]), 'manage.py')):
                 break
+            # if we find a license file, assume this is the top-level directory
+            if os.path.exists(os.path.join('/'.join(cwd_parts[:idx + 1]), 'LICENSE')):
+                break
             # if we find a requirements.txt, this is may be the top of a project
             if os.path.exists(os.path.join('/'.join(cwd_parts[:idx + 1]), 'requirements.txt')):
                 break
