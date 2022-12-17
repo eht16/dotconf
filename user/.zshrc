@@ -1,7 +1,10 @@
 HISTFILE=~/.zsh_histfile
 HISTSIZE=2000
 SAVEHIST=2000
+
 REPORTTIME=2
+TIMEFMT=$'%J  %U user %S system %P cpu %Mmb %*E total'
+
 watch=(notme)               # watch login/logout
 bindkey -e
 bindkey "^[[1;5C" forward-word
