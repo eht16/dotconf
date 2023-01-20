@@ -1,13 +1,8 @@
 #!/bin/sh
 
-export PYTHONPATH="$PYTHONPATH:/home/enrico/.pylint.d"
-
 echo "======  isort  ======"
 isort --check-only $1
 echo "======  flake8  ======"
 flake8 $1
 echo "======  pylint  ======"
-pylint \
-	--init-hook="import sys; sys.path.append('/home/enrico/.pylint.d'); import importer" \
-	--jobs=2 \
-	$1
+pylint --jobs=2 $1
