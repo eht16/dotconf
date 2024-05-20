@@ -14,13 +14,11 @@
 [url "git@github.com:eht16/"]
 	insteadOf = eht16:
 [alias]
-	cl = clone
 	st = status
 	ci = commit
 	co = checkout
-	df = diff
 	who = shortlog -s --
-	up = pull --rebase
+	please = push --force-with-lease
 [push]
 	default = simple
 [pull]
