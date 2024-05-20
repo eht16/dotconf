@@ -1,0 +1,89 @@
+# -----------------------------------------------------------------------------
+# Red skin
+# -----------------------------------------------------------------------------
+
+# Skin...
+k9s:
+  body:
+    fgColor: white
+    bgColor: black
+    logoColor: red
+  prompt:
+    fgColor: white
+    bgColor: black
+    suggestColor: red
+  info:
+    fgColor: lightgray
+    sectionColor: white
+  dialog:
+    fgColor: white
+    bgColor: black
+    buttonFgColor: black
+    buttonBgColor: red
+    buttonFocusFgColor: white
+    buttonFocusBgColor: red
+    labelFgColor: white
+    fieldFgColor: white
+  frame:
+    border:
+      fgColor: darkred
+      focusColor: darkred
+    menu:
+      fgColor: white
+      keyColor: red
+      numKeyColor: red
+    crumbs:
+      fgColor: black
+      bgColor: red
+      activeColor: red
+    status:
+      newColor: white
+      modifyColor: greenyellow
+      addColor: white
+      errorColor: red
+      pendingColor: darkred
+      highlightColor: white
+      killColor: lightgray
+      completedColor: gray
+    title:
+      fgColor: lightgray
+      highlightColor: red
+      counterColor: red
+      filterColor: red
+  views:
+    charts:
+      bgColor: black
+      defaultDialColors:
+        - linegreen
+        - redred
+      defaultChartColors:
+        - linegreen
+        - redred
+    table:
+      fgColor: white
+      bgColor: black
+      cursorFgColor: black
+      cursorBgColor: red
+      markColor: darkgoldenrod
+      header:
+        fgColor: lightgray
+        bgColor: black
+        sorterColor: red
+    xray:
+      fgColor: white
+      bgColor: black
+      cursorColor: red
+      graphicColor: darkgoldenrod
+      showIcons: false
+    yaml:
+      keyColor: white
+      colonColor: white
+      valueColor: red
+    logs:
+      fgColor: white
+      bgColor: black
+      indicator:
+        fgColor: white
+        bgColor: black
+        toggleOnColor: red
+        toggleOffColor: white

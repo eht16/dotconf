@@ -52,7 +52,10 @@ export XDG_DATA_DIRS="/home/enrico/.local/share:/home/enrico/apps/share:/usr/sha
 export PYTHONSTARTUP=~/.pythonrc.py
 export PYTHONPYCACHEPREFIX=/tmp/__pycache__
 export PYTHONBREAKPOINT="web_pdb.set_trace"
+
 export TWINE_USERNAME=eht16
+# DevOps
+export K9S_LOGS_DIR=/tmp/k9s
 
 # development
 export CFLAGS="-Wall -O2 -pipe -fPIC"
