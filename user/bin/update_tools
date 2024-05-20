@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Install useful DevOps tools
+
+set -e
+
+# Those can be overidden if needed
+TERRAFORM_VERSION=${TERRAFORM_VERSION:-v1.5.7}
+KUBECTL_VERSION=${TERRAFORM_VERSION:-v1.26.15}
+
+
+arkade get \
+    cmctl \
+    dive \
+    helm \
+    k3d \
+    k9s \
+    kubectl@${KUBECTL_VERSION} \
+    stern \
+    terraform@${TERRAFORM_VERSION} \
+    yq
+
+ln -s /home/enrico/.arkade/bin/* /home/enrico/bin/
