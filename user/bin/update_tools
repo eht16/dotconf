@@ -6,7 +6,7 @@ set -e
 
 # Those can be overidden if needed
 TERRAFORM_VERSION=${TERRAFORM_VERSION:-v1.5.7}
-KUBECTL_VERSION=${TERRAFORM_VERSION:-v1.26.15}
+KUBECTL_VERSION=${KUBECTL_VERSION:-v1.26.15}
 
 
 arkade get \
