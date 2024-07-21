@@ -1,8 +1,6 @@
 #!/bin/sh
 
-echo "======  isort  ======"
-isort --check-only $1
-echo "======  flake8  ======"
-flake8 $1
+echo "======  ruff  ======"
+ruff check --output-format concise $1
 echo "======  pylint  ======"
 pylint --jobs=2 $1

@@ -63,6 +63,7 @@ export CFLAGS="-Wall -O2 -pipe -fPIC"
 export CXXFLAGS=$CFLAGS
 export MAKEFLAGS="-j4"
 export NOCONFIGURE=1
+export RUFF_CACHE_DIR=/tmp/.ruff_cache
 
 # tools
 export EDITOR=mcedit
