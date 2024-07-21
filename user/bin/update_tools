@@ -12,12 +12,16 @@ KUBECTL_VERSION=${KUBECTL_VERSION:-v1.26.15}
 arkade get \
     cmctl \
     dive \
+    docker-compose \
     helm \
+    hugo \
     k3d \
     k9s \
     kubectl@${KUBECTL_VERSION} \
+    kubecolor \
+    lazydocker \
     stern \
     terraform@${TERRAFORM_VERSION} \
     yq
 
-ln -s /home/enrico/.arkade/bin/* /home/enrico/bin/
+ln -sf /home/enrico/.arkade/bin/* /home/enrico/bin/
