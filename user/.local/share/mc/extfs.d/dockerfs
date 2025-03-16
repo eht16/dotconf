@@ -1,0 +1,326 @@
+#! /usr/bin/env python
+#
+# This software may be modified and distributed under the terms
+# of the MIT license.  See the LICENSE file for details.
+
+"""
+Docker Virtual filesystem for Midnight Commander
+Allows to browse and delete images, volumes and networks.
+
+Start with: mc dockerfs://
+"""
+
+from datetime import datetime
+from os import getgid, getuid
+import argparse
+import logging
+import logging.handlers
+import os
+import re
+import subprocess
+import sys
+
+
+DEBUG = False
+SYSLOG_LEVEL = None  # uppercase log level name, e.g. 'ERRROR', 'DEBUG' or None to disable logging
+
+DOCKER_PREFIX_CONTAINERS = '[docker] Containers'
+DOCKER_PREFIX_IMAGES = '[docker] Images'
+DOCKER_PREFIX_VOLUMES = '[docker] Volumes'
+DOCKER_PREFIX_NETWORKS = '[docker] Networks'
+TIMESTAMP_FORMAT = '%m-%d-%Y %H:%M:%S'
+LIST_TEMPLATE = f'-r-{{flag_exec}}r--r-- 1 {getuid()} {getgid()} {{size}} {{timestamp}} {{file}}'
+
+DOCKER_IMAGE_SIZE_RE = re.compile('^([0-9.]+)(KB|MB|GB|TB)$', re.IGNORECASE)
+DOCKER_IMAGE_ID_RE = re.compile('^\\[docker\\] Images/.* \\[([0-9a-fA-F]+)\\]$')
+DOCKER_CONTAINER_ID_RE = re.compile('^\\[docker\\] Containers/.* \\[([0-9a-fA-F]+)\\] \\[(.*)\\]$')
+
+DOCKER_BASE_COMMAND = ['docker']  # add more arguments as needed, e.g. ['sudo', 'docker']
+
+__version__ = 1.0
+
+
+def docker_ls(args):
+    logging.debug(f'docker_ls called {args}')
+    now = datetime.now(tz=None)  # noqa: DTZ005
+    ts_now = now.strftime(TIMESTAMP_FORMAT)
+
+    items = []
+
+    # Volumes
+    docker_volumes = _get_docker_resources('volume')
+    for docker_volume_name in docker_volumes.splitlines():
+        name = docker_volume_name.decode()
+        item = _create_list_item(f'{DOCKER_PREFIX_VOLUMES}/{name}', ts_now)
+        items.append(item)
+
+    # Containers
+    docker_containers = _get_docker_resources('container')
+    for docker_container_name in docker_containers.splitlines():
+        container_id, state, created_at, name = docker_container_name.decode().split('|')
+        timestamp = _parse_docker_timestamp(created_at)
+        ts = timestamp.strftime(TIMESTAMP_FORMAT)
+        item = _create_list_item(
+            f'{DOCKER_PREFIX_CONTAINERS}/{name} [{container_id}] [{state}]', ts, flag_exec='x'
+        )
+        items.append(item)
+
+    # Networks
+    docker_networks = _get_docker_resources('network')
+    for docker_network in docker_networks.splitlines():
+        created_at, name = docker_network.decode().split('|')
+        ts = _parse_docker_timestamp(created_at).strftime(TIMESTAMP_FORMAT)
+        item = _create_list_item(f'{DOCKER_PREFIX_NETWORKS}/{name}', ts)
+        items.append(item)
+
+    # Images
+    docker_images = _get_docker_resources('image')
+    for docker_image in docker_images.splitlines():
+        image_id, created_at, size, name = docker_image.decode().split('|')
+        ts = _parse_docker_timestamp(created_at).strftime(TIMESTAMP_FORMAT)
+        size = _parse_docker_image_size(size)
+        item = _create_list_item(f'{DOCKER_PREFIX_IMAGES}/{name} [{image_id}]', ts, size=size)
+        items.append(item)
+
+    # non-existent items for debugging only
+    if DEBUG:
+        items.append(_create_list_item(f'{DOCKER_PREFIX_IMAGES}/non-existent [{1234567}]', ts_now))
+        items.append(_create_list_item(f'{DOCKER_PREFIX_NETWORKS}/non-existent', ts_now))
+        items.append(_create_list_item(f'{DOCKER_PREFIX_VOLUMES}/non-existent', ts_now))
+        items.append(
+            _create_list_item(f'{DOCKER_PREFIX_CONTAINERS}/non-existent [1234567] [hello]', ts_now)
+        )
+
+    print('\n'.join(items))
+
+    return 0
+
+
+def _create_list_item(file, timestamp, size=0, flag_exec='-'):
+    return LIST_TEMPLATE.format(file=file, size=size, timestamp=timestamp, flag_exec=flag_exec)
+
+
+def _get_docker_resources(resource_name):
+    match resource_name:
+        case 'container':
+            return subprocess.check_output([  # noqa: S603
+                *DOCKER_BASE_COMMAND,
+                'container',
+                'ls',
+                '--all',
+                '--format={{.ID}}|{{.State}}|{{.CreatedAt}}|{{.Names}}'
+            ])
+        case 'image':
+            return subprocess.check_output([  # noqa: S603
+                *DOCKER_BASE_COMMAND,
+                'image',
+                'ls',
+                '--format={{.ID}}|{{.CreatedAt}}|{{.Size}}|{{.Repository}}:{{.Tag}}'
+            ])
+        case 'network':
+            return subprocess.check_output([  # noqa: S603
+                *DOCKER_BASE_COMMAND,
+                'network',
+                'ls',
+                '--format={{.CreatedAt}}|{{.Name}}'
+            ])
+        case 'volume':
+            return subprocess.check_output([  # noqa: S603
+                *DOCKER_BASE_COMMAND,
+                'volume',
+                'ls',
+                '--format={{.Name}}'])
+
+
+def _parse_docker_timestamp(timestamp):
+    date, time, offset, _ = timestamp.split()
+    time = time.split('.')[0]  # ignore and remove microseconds
+    shortened_timestamp = f'{date} {time} {offset}'
+    return datetime.strptime(shortened_timestamp, '%Y-%m-%d %H:%M:%S %z')
+
+
+def _parse_docker_image_size(size):
+    parsed_size = 0
+    match = DOCKER_IMAGE_SIZE_RE.match(size)
+    if match:
+        value, unit = match.groups()
+        try:
+            value = float(value)
+        except ValueError:
+            return parsed_size
+
+        match unit.lower():
+            case 'kb':
+                parsed_size = value * 1024
+            case 'mb':
+                parsed_size = value * 1024 * 1024
+            case 'gb':
+                parsed_size = value * 1024 * 1024 * 1024
+            case 'tb':
+                parsed_size = value * 1024 * 1024 * 1024 * 1024
+
+    return int(parsed_size)
+
+
+def docker_copy_inspect(args):
+    logging.debug(f'copyout called {args}')
+
+    source = args.src
+    destination = args.dst
+    command = []
+
+    if source.startswith(DOCKER_PREFIX_IMAGES):
+        # Since we report the size for Docker images, MC attempts to read as many bytes as we
+        # reported for the file when it is viewed (F3) but the generated temporary file
+        # contains much less since it would be only the "inspect" output. This causes MC to freeze.
+        print('Command unsupported', file=sys.stderr)
+        return 1
+
+    if source.startswith(DOCKER_PREFIX_NETWORKS):
+        network_name = source.replace(f'{DOCKER_PREFIX_NETWORKS}/', '')
+        command = [*DOCKER_BASE_COMMAND, 'network', 'inspect', network_name]
+    elif source.startswith(DOCKER_PREFIX_CONTAINERS):
+        container_id = _parse_resource_id(DOCKER_CONTAINER_ID_RE, source)
+        command = [*DOCKER_BASE_COMMAND, 'container', 'inspect', container_id]
+    elif source.startswith(DOCKER_PREFIX_VOLUMES):
+        volume_name = source.replace(f'{DOCKER_PREFIX_VOLUMES}/', '')
+        command = [*DOCKER_BASE_COMMAND, 'volume', 'inspect', volume_name]
+    else:
+        print('Unsupported resource type', file=sys.stderr)
+        return 1
+
+    with open(destination, 'w') as target_file:
+        try:
+            subprocess.check_call(command, stdout=target_file, stderr=None)  # noqa: S603
+        except subprocess.CalledProcessError as exc:
+            return exc.returncode
+
+    logging.debug(f'copyout finished: {destination}')
+    return 0
+
+
+def _parse_resource_id(regex, value):
+    match = regex.match(value)
+    if match:
+        return match.group(1)
+
+    return None
+
+
+def _parse_container_state(value):
+    match = DOCKER_CONTAINER_ID_RE.match(value)
+    if match:
+        return match.group(2)
+
+    return None
+
+
+def docker_delete(args):
+    logging.debug(f'docker_delete called {args}')
+
+    destination = args.dst
+    command = []
+
+    if destination.startswith(DOCKER_PREFIX_IMAGES):
+        image_id = _parse_resource_id(DOCKER_IMAGE_ID_RE, destination)
+        command = [*DOCKER_BASE_COMMAND, 'image', 'rm', image_id]
+    elif destination.startswith(DOCKER_PREFIX_CONTAINERS):
+        container_id = _parse_resource_id(DOCKER_CONTAINER_ID_RE, destination)
+        command = [*DOCKER_BASE_COMMAND, 'container', 'rm', container_id]
+    elif destination.startswith(DOCKER_PREFIX_NETWORKS):
+        network_name = destination.replace(f'{DOCKER_PREFIX_NETWORKS}/', '')
+        command = [*DOCKER_BASE_COMMAND, 'network', 'rm', network_name]
+    elif destination.startswith(DOCKER_PREFIX_VOLUMES):
+        volume_name = destination.replace(f'{DOCKER_PREFIX_VOLUMES}/', '')
+        command = [*DOCKER_BASE_COMMAND, 'volume', 'rm', volume_name]
+    else:
+        print('Unknown resource type')
+        return 1
+
+    try:
+        subprocess.check_call(command, stdout=None, stderr=None)  # noqa: S603
+    except subprocess.CalledProcessError:
+        return 1
+
+    return 0
+
+
+def docker_run(args):
+    logging.debug(f'docker_run called {args}')
+    destination = args.dst
+    if not destination.startswith(DOCKER_PREFIX_CONTAINERS):
+        print('Unsupported resource type', file=sys.stderr)
+        return 1
+
+    container_id = _parse_resource_id(DOCKER_CONTAINER_ID_RE, destination)
+    container_state = _parse_container_state(destination)
+
+    if container_state == 'running':
+        os.system(f'{" ".join(DOCKER_BASE_COMMAND)} exec -it {container_id} sh')  # noqa: S605
+    else:
+        print('Container must be running', file=sys.stderr)
+        return 1
+
+    return 0
+
+
+def unsupported_command(args):
+    print('Command unsupported', file=sys.stderr)
+    return 1
+
+
+def _setup_logging():
+    if SYSLOG_LEVEL is not None:
+        syslog_handler = logging.handlers.SysLogHandler(address='/dev/log')
+        logging.basicConfig(
+            level=getattr(logging, SYSLOG_LEVEL),
+            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+            datefmt='%m-%d %H:%M',
+            handlers=[syslog_handler],
+        )
+
+
+def _parse_arguments():
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(help='supported commands')
+
+    _add_argument_parser(subparsers, 'list', docker_ls)
+    _add_argument_parser(subparsers, 'run', docker_run, 'arch', 'dst')
+    _add_argument_parser(subparsers, 'copyin', unsupported_command, 'arch', 'src', 'dst')
+    _add_argument_parser(subparsers, 'copyout', docker_copy_inspect, 'arch', 'src', 'dst')
+    _add_argument_parser(subparsers, 'rm', docker_delete, 'arch', 'dst')
+    _add_argument_parser(subparsers, 'mkdir', unsupported_command, 'arch', 'dst')
+    _add_argument_parser(subparsers, 'rmdir', unsupported_command, 'arch', 'dst')
+
+    parser.add_argument('--version', action='version', version='%(prog)s ' + str(__version__))
+
+    return parser.parse_args()
+
+
+def _add_argument_parser(subparsers, name, default_func, *args):
+    parser_rmdir = subparsers.add_parser(name)
+    parser_rmdir.set_defaults(func=default_func)
+    for arg in args:
+        parser_rmdir.add_argument(arg)
+
+
+def main():
+    _setup_logging()
+    args = _parse_arguments()
+
+    logging.debug(f'Called as: {sys.argv}')
+
+    try:
+        exit_code = args.func(args)
+    except Exception as exc:
+        logging.exception('An error occurred: {exc}')
+        print(exc, file=sys.stderr)
+        exit_code = 1
+
+    logging.debug(f'exit code {exit_code}')
+    logging.shutdown()
+    return exit_code
+
+
+if __name__ == '__main__':
+    sys.exit(main())
