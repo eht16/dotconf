@@ -46,6 +46,7 @@ export GTK_A11Y=0
 export GTK_CSD=0
 export GTK_OVERLAY_SCROLLING=0
 export QT_QPA_PLATFORMTHEME=gtk2
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
 export OOO_FORCE_DESKTOP=gnome
 export PKG_CONFIG_PATH="/home/enrico/apps/lib/pkgconfig/"
 export XDG_DATA_DIRS="/home/enrico/.local/share:/home/enrico/apps/share:/usr/share:$XDG_DATA_DIRS"
