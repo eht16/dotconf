@@ -10,8 +10,6 @@ Allows to browse and delete images, volumes and networks.
 Start with: mc dockerfs://
 """
 
-from datetime import datetime
-from os import getgid, getuid
 import argparse
 import logging
 import logging.handlers
@@ -19,6 +17,8 @@ import os
 import re
 import subprocess
 import sys
+from os import getgid, getuid
+from datetime import datetime
 
 
 DEBUG = False
@@ -41,7 +41,7 @@ __version__ = 1.0
 
 
 def docker_ls(args):
-    logging.debug(f'docker_ls called {args}')
+    logging.debug('docker_ls called %s', args)
     now = datetime.now(tz=None)  # noqa: DTZ005
     ts_now = now.strftime(TIMESTAMP_FORMAT)
 
@@ -163,7 +163,7 @@ def _parse_docker_image_size(size):
 
 
 def docker_copy_inspect(args):
-    logging.debug(f'copyout called {args}')
+    logging.debug('copyout called %s', args)
 
     source = args.src
     destination = args.dst
@@ -195,7 +195,7 @@ def docker_copy_inspect(args):
         except subprocess.CalledProcessError as exc:
             return exc.returncode
 
-    logging.debug(f'copyout finished: {destination}')
+    logging.debug('copyout finished: %s', destination)
     return 0
 
 
@@ -216,7 +216,7 @@ def _parse_container_state(value):
 
 
 def docker_delete(args):
-    logging.debug(f'docker_delete called {args}')
+    logging.debug('docker_delete called %s', args)
 
     destination = args.dst
     command = []
@@ -246,7 +246,7 @@ def docker_delete(args):
 
 
 def docker_run(args):
-    logging.debug(f'docker_run called {args}')
+    logging.debug('docker_run called %s', args)
     destination = args.dst
     if not destination.startswith(DOCKER_PREFIX_CONTAINERS):
         print('Unsupported resource type', file=sys.stderr)
@@ -298,17 +298,17 @@ def _parse_arguments():
 
 
 def _add_argument_parser(subparsers, name, default_func, *args):
-    parser_rmdir = subparsers.add_parser(name)
-    parser_rmdir.set_defaults(func=default_func)
+    parser = subparsers.add_parser(name)
+    parser.set_defaults(func=default_func)
     for arg in args:
-        parser_rmdir.add_argument(arg)
+        parser.add_argument(arg)
 
 
 def main():
     _setup_logging()
     args = _parse_arguments()
 
-    logging.debug(f'Called as: {sys.argv}')
+    logging.debug('Called as: %s', sys.argv)
 
     try:
         exit_code = args.func(args)
@@ -317,7 +317,7 @@ def main():
         print(exc, file=sys.stderr)
         exit_code = 1
 
-    logging.debug(f'exit code {exit_code}')
+    logging.debug('exit code %s', exit_code)
     logging.shutdown()
     return exit_code
 
