@@ -8,6 +8,7 @@ import readline
 import rlcompleter
 
 readline.parse_and_bind('tab: complete')
+readline.set_history_length(1024 * 10)
 history = os.path.expanduser("~/.pythonhist")
 
 def save_history(history=history):
