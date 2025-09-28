@@ -21,5 +21,15 @@ if os.path.exists(history):
     except IOError:
         pass
 
+
+# initialize Django if available
+try:
+    from django.core.management import setup_environ
+    import settings
+    setup_environ(settings)
+    del settings, setup_environ
+except:
+    pass
+
 atexit.register(save_history)
 del os, atexit, readline, rlcompleter, save_history, history
